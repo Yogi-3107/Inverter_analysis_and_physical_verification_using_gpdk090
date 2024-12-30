@@ -22,6 +22,9 @@ In this project, I'm designing a _CMOS Inverter_, which will be analysed using v
   - [4.3 Design Rule Checking](#43-Design-Rule-Checking)
   - [4.4 Layout Vs Schematic](#44-Layout-Vs-Schematic)
   - [4.5 RC Extraction](#45-RC-Extraction)
+- [5. Post Layout Analysis](#5-Post-Layout-Analysis)
+  - [5.1 Post Layout Transient Analysis](#51-Post-Layout-Transient-Analysis)
+  - [5.2 Post Layout DC Analysis](#52-Post-Layout-DC-Analysis)
     
 
 
@@ -224,3 +227,35 @@ For the final step of physical verification of CMOS Inverter, I ran Assura RCX a
 ![RCX](./Layout%20and%20Physical%20Verification/Inverter_Layout_RCX.png)
 
 The extracted view or  _Post-Layout View_ is saved with the name **av_extracted** and the Physical Verification step is concluded.
+
+## 5. Post Layout Analysis
+
+The procedure of running post-layout simulations is very similar to simulating a Schematic. The steps to prepare a design for post-layout simulations are listed below:
+- Extracting the parasitics
+  - which is already done in RCX.
+- Creating Analog Extracted View
+  - created after the completion of RCX (**av_extracted**).
+- Simulating the Analog Extracted View
+  - can be done after creating a config file for the Inverter to access the Analog Extracted View and simulating it similarly as done earlier in Pre-Layout Analysis.
+
+In the Post-Layout Transient and DC Analysis, that is discussed below, the **Green** trace denotes _input_, **Dotted Yellow** trace denotes _Pre-Layout output_ results and **Red** trace denotes _Post-Layout output_ results.
+
+### 5.1 Post Layout Transient Analysis
+
+Below are the results from Post-Layout transient analysis of CMOS Inverter:
+![Tran SIM1](./Post-Layout%20Simulations/Post-Layout_Trans_Sim1.png)
+![Tran SIM2](./Post-Layout%20Simulations/Post-Layout_Trans_Sim2.png)
+![Tran SIM3](./Post-Layout%20Simulations/Post-Layout_Trans_Sim3.png)
+
+After taking a closer look at the results, it is clear that Pre-Layout and Post-Layout results **vary slightly**, therefore the delay in the output signal is also **affected by the RC parasitics** extracted after the physical verification. The delay is calculated is shown below:
+![Tran Delay](./Post-Layout%20Simulations/Post-Layout_Trans_Delay.png)
+
+The delay comes out to be, **20.0362 ns**. Difference in Pre-Layout and Post-Layout Delay is **0.0128 ns** or **12.8 ps**.
+
+### 5.2 Post Layout DC Analysis
+
+Similarly, results will also vary for DC simulation of the extracted view of the Inverter as illustrated below:
+![DC SIM1](./Post-Layout%20Simulations/Post-Layout_DC_Sim1.png)
+![DC SIM2](./Post-Layout%20Simulations/Post-Layout_DC_Sim2.png)
+
+As we can see from the results illustrated above, the switching threshold for the _Pre-Layout DC Analysis_ came out to be **904.9415 mV** whereas for the _Post-Layout DC Analysis_, it came out to be **906.1876 mV**.
