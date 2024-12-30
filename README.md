@@ -19,9 +19,9 @@ In this project, I'm designing a _CMOS Inverter_, which will be analysed using v
 - [4. Layout and Physical Verification](#4-Layout-and-Physical-Verification)
   - [4.1 Layout](#41-Layout)
   - [4.2 Physical Verification](#42-Physical-Verification)
-  - [4.2.1 Design Rule Checking (DRC)](#421-Design-Rule-Checking-(DRC))
-  - [4.2.2 Layout-Vs-Schematic (LVS)](#422-Layout-Vs-Schematic-(LVS))
-  - [4.2.3 RC Extraction (RCX)](#423-RC-Extraction-(RCX))
+  - [4.3 Design Rule Checking (DRC)](#43-Design-Rule-Checking-(DRC))
+  - [4.4 Layout-Vs-Schematic (LVS)](#44-Layout-Vs-Schematic-(LVS))
+  - [4.5 RC Extraction (RCX)](#45-RC-Extraction-(RCX))
     
 
 
