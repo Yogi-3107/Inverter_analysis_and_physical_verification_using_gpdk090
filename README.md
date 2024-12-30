@@ -2,7 +2,7 @@
 ### Inverter Design, Analysis and Physical Verification using Cadence provided GPDK090 in Cadence Virtuoso
 ---
 
-<p align="justify"> In this project, I'm designing a _CMOS Inverter_, which will be analysed using various simulations. Also, a **layout** will be designed for the same followed by _Physical Verification_ steps like _Design-Rule-Check_ (**DRC**), _Layout-Vs-Schematic_ (**LVS**) and _Parasitic/RC Extraction_ (**RCX**). Further,  the results from _Pre-Layout simulation_ will be compared with the _Post-Layout simulation_ and the design will be _streamed-out/tape-out_. </p>
+In this project, I'm designing a _CMOS Inverter_, which will be analysed using various simulations. Also, a **layout** will be designed for the same followed by _Physical Verification_ steps like _Design-Rule-Check_ (**DRC**), _Layout-Vs-Schematic_ (**LVS**) and _Parasitic/RC Extraction_ (**RCX**). Further,  the results from _Pre-Layout simulation_ will be compared with the _Post-Layout simulation_ and the design will be _streamed-out/tape-out_.
 
 ---
 
