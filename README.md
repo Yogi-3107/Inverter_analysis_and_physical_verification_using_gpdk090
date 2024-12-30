@@ -13,6 +13,15 @@ In this project, I'm designing a _CMOS Inverter_, which will be analysed using v
 - [2. CMOS Inverter](#2-CMOS-Inverter)
   - [2.1 Schematic](#21-Schematic)
   - [2.2 Symbol](#22-Symbol)
+- [3. Analysis of CMOS Inverter](#3-Analysis-of-CMOS-Inverter)
+  - [3.1 Characteristics of CMOS Inverter](#31-Characteristics-of-CMOS-Inverter)
+  - [3.2 Transient and DC Analysis](#32-Transient-and-DC-Analysis)
+- [4. Layout and Physical Verification](#4-Layout-and-Physical-Verification)
+  - [4.1 Layout](#41-Layout)
+  - [4.2 Physical Verification](#42-Physical-Verification)
+    - [4.2.1 Design Rule Checking (DRC)](#421-Design-Rule-Checking-(DRC):)
+    - [4.2.2 Layout-Vs-Schematic (LVS)](#422-Layout-Vs-Schematic-(LVS):)
+    - [4.2.3 RC Extraction (RCX)](#423-RC-Extraction-(RCX):)
     
 
 
@@ -106,3 +115,112 @@ To ensure balanced functioning, CMOS inverters should ideally provide a symmetri
 ![DC Sim Symmetric](./Transient%20and%20DC%20Analysis/DC_Analysis_for_Symmetric_Conditions.png)
 
 The width of the PMOS at which the symmetric condition of the CMOS is fulfilled, comes out to be **Wp = 1.15 um**. At this point, the swtiching threshold is nearly equal to half of the supply voltage (**vdd**). 
+
+## 4. Layout and Physical Verification
+
+### 4.1 Layout
+
+**Layout** in VLSI refers to the process of creating the __physical representation of an integrated circuit__ (IC) design. It involves **translating the logical circuit description (schematic) into geometric representations of the various layers** used in semiconductor manufacturing.
+
+Purpose:
+ - Translate logical design into a physical representation suitable for manufacturing.
+ - Optimize chip area, performance, and power consumption.
+ - Ensure manufacturability and reliability of the IC.
+
+Process Flow: (_Also termed as_ **Physical Design Flow**)
+ - **Floorplanning:** Arranging major functional blocks
+ - **Placement:** Positioning individual cells or components
+ - **Routing:** Connecting components with metal layers
+ - **Compaction:** Optimizing layout for area efficiency
+ - **Verification:** DRC, LVS, RCX/XRC
+
+Below is the layout design of CMOS Inverter in Cadence Virtuoso:
+
+![Layout](./Layout%20and%20Physical%20Verification/Inverter_Layout.png)
+
+Layout is a critical phase in VLSI design, directly impacting the final chip’s performance, power efficiency, and manufacturability. Mastery of layout techniques is essential for creating high-quality integrated circuits.
+
+### 4.2 Physical Verification
+
+Commercially, there are various tools available for the Physical Verification of the MOS Circuits like _Cadence PVS, Mentor Graphics Calibre, Synopsys IC Validator, etc._ but the tool I utilized to do so is [Cadence Assura](https://www.cadence.com/en_US/home/tools/digital-design-and-signoff/silicon-signoff/assura-physical-verification.html). All the physical verification steps - _DRC, LVS and RCX_ for the project is done via this tool.
+
+#### 4.2.1 Design Rule Checking (DRC):
+
+Design Rule Checks are nothing but **physical checks of metal width, pitch and spacing requirement** for the different layers which _depend on different technology nodes_. We need to **clean up** the DRC of the design because there is a logical connection of various components, and if they are physically connected, then it will fail the functionality of the chips, and chips won’t be able to perform a specific task.
+
+The layout of a design must be in accordance with a set of **predefined technology rules given by the foundry for manufacturability**. After completion of the layout and its physical connection, an automatic program will check each and every polygon in the design against these design rules and report any violations. This whole process is called **Design Rule Checking (DRC)**. 
+
+There are many design rules at different technology nodes, a few of which are mentioned below:
+- Minimum width and spacing for metal
+- Minimum width and spacing for via
+- Fat wire Via keep out Enclosure
+- End of Line spacing
+- Minimum area
+- Over Max stack level
+- Wide metal jog
+- Misaligned Via wire
+- Different net spacing
+- Special notch spacing
+- Shorts violation
+- Different net Via cut spacing
+- Less than min edge length
+
+The layout I designed, pass the DRC and is DRC clean as illustrated  below:
+![DRC](./Layout%20and%20Physical%20Verification/Inverter_Layout_DRC.png)
+
+#### 4.2.2 Layout-Vs-Schematic (LVS):
+
+Layout Versus Schematic (LVS) checking **compares the extracted netlist from the layout to the original schematic netlist to determine if they match**. The comparison check is considered **clean** if all the devices and nets of the schematic match the devices and the nets of the layout. Optionally, the device properties can also be compared to determine if they match within a certain tolerance. When properties are compared, all the properties must match as well to achieve a clean comparison.
+
+Two main processes make up the LVS flow. The first process in the flow is **extraction**, in which _the layers within the layout database are analyzed and all the devices and nets are extracted_. The second process in the flow is **compare**, in which the _actual comparison of devices and nets occurs_.
+
+The LVS runset contains a series of function calls that control both extraction and netlist comparison.
+
+LVS errors can be classified into two main categories:
+
+1. Extraction Errors
+   - Text short and open
+   - Device extraction error
+   - Missing device terminal
+   - Extra device terminal
+   - Unused text
+   - Duplicate structure placement
+
+2. Compare Errors
+   - Unmatched nets in the layout/schematic
+   - Unmatched devices in the layout/schematic
+   - Property errors
+   - Port swap errors
+
+The LVS of the CMOS Layout design is a match after the debugging as shown below:
+![LVS](./Layout%20and%20Physical%20Verification/Inverter_Layout_LVS.png)
+
+#### 4.2.3 RC Extraction (RCX):
+
+**Parasitic Extraction** provide the information about the _parasitic devices which are not included as a part of original circuit design_. But these parasitic devices **affect the circuit performance** in several ways. There are chances that because of these devices, the circuit stops working or does not meet design specifications.
+
+Effect of Parasitic Devices on Circuit Design:
+
+1. Extra Power Consumption
+   - violate the Power specification extra power dissipation can increase local temperature which can effect other parameters
+
+2. Effect the Delay of circuit
+   - which can cause of timing violation can impact IR drop
+
+3. Reduce the Noise Margin
+   - which can cause logic failure
+
+4. Increase Signal Noise which can
+   - change the Logic of the signal (0 to 1) or (1 to 0)
+   - logic failure introduce extra/unwanted delay which can impact the timing
+   - speed up the signal which again impact the timing
+
+5. Increase IR drop on power supply lines
+   - which in turn affects delay
+
+In order to get a good idea of realistic parameters in our design, we run RCX which can **estimate and add** to your design the _parasitic resistances (R), capacitances (C), self inductances (L), and mutual inductances (K)_. We are only interested in RC parasitics, hence, **RC Extraction**.
+
+For the final step of physical verification of CMOS Inverter, I ran Assura RCX as shown below:
+![RCX](./Layout%20and%20Physical%20Verification/Inverter_Layout_RCX.png)
+
+The extracted view or  _Post-Layout View_ is saved with the name **av_extracted** and the Physical Verification step is concluded.
