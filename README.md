@@ -19,9 +19,9 @@ In this project, I'm designing a _CMOS Inverter_, which will be analysed using v
 - [4. Layout and Physical Verification](#4-Layout-and-Physical-Verification)
   - [4.1 Layout](#41-Layout)
   - [4.2 Physical Verification](#42-Physical-Verification)
-    - [4.2.1 Design Rule Checking (DRC)](##421-Design-Rule-Checking-(DRC))
-    - [4.2.2 Layout-Vs-Schematic (LVS)](##422-Layout-Vs-Schematic-(LVS))
-    - [4.2.3 RC Extraction (RCX)](##423-RC-Extraction-(RCX))
+    - [4.2.1 Design Rule Checking (DRC)](#421-Design-Rule-Checking-(DRC))
+    - [4.2.2 Layout-Vs-Schematic (LVS)](#422-Layout-Vs-Schematic-(LVS))
+    - [4.2.3 RC Extraction (RCX)](#423-RC-Extraction-(RCX))
     
 
 
@@ -144,7 +144,7 @@ Layout is a critical phase in VLSI design, directly impacting the final chip’s
 
 Commercially, there are various tools available for the Physical Verification of the MOS Circuits like _Cadence PVS, Mentor Graphics Calibre, Synopsys IC Validator, etc._ but the tool I utilized to do so is [Cadence Assura](https://www.cadence.com/en_US/home/tools/digital-design-and-signoff/silicon-signoff/assura-physical-verification.html). All the physical verification steps - _DRC, LVS and RCX_ for the project is done via this tool.
 
-#### 4.2.1 Design Rule Checking (DRC)
+### 4.2.1 Design Rule Checking (DRC)
 
 Design Rule Checks are nothing but **physical checks of metal width, pitch and spacing requirement** for the different layers which _depend on different technology nodes_. We need to **clean up** the DRC of the design because there is a logical connection of various components, and if they are physically connected, then it will fail the functionality of the chips, and chips won’t be able to perform a specific task.
 
@@ -168,7 +168,7 @@ There are many design rules at different technology nodes, a few of which are me
 The layout I designed, pass the DRC and is DRC clean as illustrated  below
 ![DRC](./Layout%20and%20Physical%20Verification/Inverter_Layout_DRC.png)
 
-#### 4.2.2 Layout-Vs-Schematic (LVS)
+### 4.2.2 Layout-Vs-Schematic (LVS)
 
 Layout Versus Schematic (LVS) checking **compares the extracted netlist from the layout to the original schematic netlist to determine if they match**. The comparison check is considered **clean** if all the devices and nets of the schematic match the devices and the nets of the layout. Optionally, the device properties can also be compared to determine if they match within a certain tolerance. When properties are compared, all the properties must match as well to achieve a clean comparison.
 
@@ -195,7 +195,7 @@ LVS errors can be classified into two main categories:
 The LVS of the CMOS Layout design is a match after the debugging as shown below:
 ![LVS](./Layout%20and%20Physical%20Verification/Inverter_Layout_LVS.png)
 
-#### 4.2.3 RC Extraction (RCX)
+### 4.2.3 RC Extraction (RCX)
 
 **Parasitic Extraction** provide the information about the _parasitic devices which are not included as a part of original circuit design_. But these parasitic devices **affect the circuit performance** in several ways. There are chances that because of these devices, the circuit stops working or does not meet design specifications.
 
